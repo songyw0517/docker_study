@@ -89,5 +89,5 @@ $ docker build -t devscof/nodejs ./
 
 ## 5. 도커 실행 및 server.js가 실행되었는지 확인
 ```
-$ docker run devscof/nodejs ./
+$ docker run devscof/nodejs
 ```
