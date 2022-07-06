@@ -1,0 +1,25 @@
+# npm 명령어를 포함하는 베이스 이미지를 설정해야한다.
+# node에는 npm이 포함되어있기에 node 이미지를 사용한다.
+# 10버전을 사용한다.
+FROM node:10
+
+# WORKDIR을 지정함으로써 프로그램을 실행시키는데 필요한
+# 파일, 디렉토리를 한 곳에 모아 보관한다.
+WORKDIR /usr/src/app
+
+# npm : Node.js로 만들어진 모듈을 웹에서 받아서 설치하고 관리해주는 프로그램
+# npm install을 통해 package.json에 적혀있는 종속성들을 웹에서 자동으로 다운 받아서 설치할 수 있다.
+# 하지만, package.json이 컨테이너에 없기에 npm install만 쓸 경우 에러가 발생한다. 
+# -> COPY를 사용하여 package.json을 컨테이너 안에 넣어야한다. // COPY package.json ./
+# 그러면, server.js가 같은 이유로 에러가 발생한다. 디렉토리의 모든 파일을 복사해야한다. // COPY ./ ./
+###################
+# 먼저 종속성 부분을 다운받고 RUN을 함으로써 재빌드시 효율을 높인다.
+COPY package.json ./
+RUN npm install
+
+# 종속성부분을 제외한 부분을 COPY한다.
+COPY ./ ./
+
+
+# node server.js로 server.js를 실행시킨다.
+CMD ["node", "server.js"]

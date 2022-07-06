@@ -15,7 +15,7 @@
   # package.json을 생성할 폴더로 이동
   $ cd \docker_practice\backend\nodejs
   
-  # npm init을 통해 패키지 설정
+  # npm init을 통해 package.json 파일 생성
   $ npm init
   ```
 - <img src="imgs/create_package_json.png">
