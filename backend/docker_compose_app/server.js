@@ -18,7 +18,7 @@ client.set("number", 0);
 app.get('/', (req, res) =>{
     // 에러가 날 경우 err에 값이 들어간다
     // 에러가 나지 않을 경우 client로부터 number에 값을 가져온다.
-    client("number", (err, number) =>{
+    client.get("number", (err, number) =>{
         // 가져온 숫자에 1을 더하여 저장한다.
         client.set("number", parseInt(number)+1);
         
