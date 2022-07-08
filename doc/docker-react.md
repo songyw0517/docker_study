@@ -1,4 +1,4 @@
-# 리액트 설치
+# * 리액트 설치
 리액트를 설치하기 전, node(nodejs)가 설치되어있어야한다.
 - ```$ node -v```로 확인이 가능하다.
 
@@ -21,7 +21,7 @@
 
 <br><br>
 
-# 도커를 이용하여 도커에서 리액트 실행하기
+# * 도커를 이용하여 도커에서 리액트 실행하기
 ## 1. 개발하기 위한 dockerfile만들기 (dockerfile.dev)
 ```docker
 # docker_react_app\dockerfile.dev
@@ -165,3 +165,80 @@ docker -p [외부포트]:[내부포트] -v /usr/src/app/node_modules -v %cd%:/us
 
 실행 명령어(윈도우)
 - ```docker run -it -p 7000:3000 -v /usr/src/app/node_modules -v %cd%:/usr/src/app devscof/docker-react-app```
+
+<br><br>
+
+# * 명령어가 길어서 싫어... (docker-compose)
+위의 마지막 단계는 ```매우 긴 도커 실행 명령어```를 입력함으로써 끝이난다.
+
+하지만, 매번 이렇게 긴 명령어를 써야할까? 아니다.
+
+docker-compose를 사용한다면 간단하게 어플리케이션을 실행시킬 수 있다.
+
+<br>
+
+## docker-compose.yml 파일 작성
+작성해야할 것
+```docker
+┌ version : "3"         # 도커 컴포즈의 버전
+└ services :            # 실행하려는 컴테이너들을 정의
+  └ [container name] :  # 컨테이너 이름
+    ├ build :           # 
+    │ ├ context : .     # 도커 이미지를 구성하기 위한 파일과 폴더들이 있는 위치, (.으로 현재 위치로 지정)
+    │ └ dockerfile : dockerfile.dev # 어떤 도커 파일을 빌드할 것인지 지정, (dockerfile.dev 파일로 지정)
+    ├ ports : "7000:3000" # 포트 매핑
+    ├ volumnes:         # 볼륨 세팅
+    │ ├ /usr/src/app/node_modules # /usr/src/app/node_modules는 참조하지 않겠다.
+    │ └ ./:/usr/src/app # ./:/usr/src/app은 참조하겠다.
+    └ stdin_open : true # 리액트 앱을 끌 때 사용
+```
+<br>
+
+## docker-compose 명령어로 실행하기
+- ```$ docker-compose up```
+
+<br>
+
+## 볼륨이 잘 적용되었는지 확인
+src/App.js 부분을 변경하여 소스코드 변경시 잘 적용이 되는지 확인한다.
+
+윈도우에서는 변경된 소스코드가 적용되는데까지 시간이 좀 걸린다.
+
+<br>
+
+# * 리액트 어플리케이션 테스트하기
+리액트를 테스트 하기 전에, 먼저 이전에 변경해왔던 소스코드를 원상태로 복구해야한다. (node_modules도 있어야한다..)
+
+리액트 테스트하기
+- ```$ npm run test```
+
+<br>
+
+## 도커환경에서 리액트 어플리케이션 테스트하기
+- ```$ docker run -it [이미지 이름] npm run test```
+  - 이 명령어는 빌드된 이미지에 대한 테스트이다.
+  - 볼륨이 적용될 수 없기에, 소스코드를 변경했어도 적용되지 않는다.
+  - 즉, 빌드를 통해서 제대로 이미지를 테스트할 수 있다.
+
+## 테스트에서도 볼륨을 적용하고 싶다.
+```$ docker run -it [이미지 이름] npm run test``` 명령어의 경우,<br>
+소스코드를 변경해도 이미지를 빌드하지 않는 이상,<br>
+변경된 소스코드를 적용시킬 수 없었다.<br>
+
+소스코드 변경을 적용시키기 위해 volume을 사용한 것과 같이 test를 위한 컨테이너를 compose파일에 만들어주면 된다.
+
+## docker-compose.yml에 test 컨테이너 추가
+```yml
+...
+tests:
+  build:
+    context: .
+    dockerfile: dockerfile.dev
+  volumes:
+    - /usr/src/app/node_modules
+    - ./:/usr/src/app
+  command: ["npm", "run", "test"]
+```
+
+## docker-compose 빌드하기
+- ```$ docker-compose up --build```

@@ -1,0 +1,27 @@
+version: "3"
+services:
+  # react 컨테이너
+  react:
+    build:
+      context: .
+      dockerfile: dockerfile.dev
+    ports:
+      - "7000:3000"
+    volumes:
+      - /usr/src/app/node_modules
+      - ./:/usr/src/app
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  # test 컨테이너
+  tests:
+    build:
+      context: .
+      dockerfile: dockerfile.dev
+    volumes:
+      - /usr/src/app/node_modules
+      - ./:/usr/src/app
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: ["npm", "run", "test"]
+    
