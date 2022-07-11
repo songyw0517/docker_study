@@ -24,7 +24,37 @@
     - 프로젝트 리포지토리 선택 (없을시 Sync account을 누른뒤 확인)
     - setting -> Migrate에서 어떤 리포지토리를 활성화시킬 것인지 선택할 수 있다.
 3. .travis.yml 작성하기<br>
-    다음과 같은 내용들을 작성한다.
-    - Github에서 Travis CI로 소스코드를 어떻게 전달시킬 것인지
-    - 어떻게 Test할 것인지
-    - 어떻게 AWS에 전달해서 배포할 것인지
+    다음과 같은 내용들이 포함되어야 한다.
+    - 도커 환경에서 리액트 앱을 실행하고 있으니, Travis CI에서도 도커환경을 구성해야한다.
+    - 구성된 도커 환경에서 dockerfile.dev를 이용해서 도커 이미지를 생성
+    - 어떻게 Test를 수행할 것인지 설정
+    - 어떻게 AWS에 소스코드를 배포할 것인지 설정
+    ```yml
+    # .travis.yml
+
+    # 권한 설정 : 관리자 권한
+    sudo: required
+
+    # 언어 설정 : generic
+    language: generic
+
+    # 필요한 서비스 설정 : 도커환경이므로, docker 설정
+    services:
+        - docker
+
+    # 스크립트를 실행하기 위한 환경 구성
+    # 도커이미지 만들기
+    before_install:
+        - echo "start Creating an image with dockerfile"
+        - docker build -t devscof/docker-react-app -f dockerfile.dev ./
+
+    # 실행할 스크립트(테스트) 설정
+    # -e CI=true 는 Travis CI를 사용하기 위한 환경변수
+    script:
+        - docker run -e CI=true devscof/docker-react-app npm run test -- --coverage
+
+    # 스크립트(테스트)가 성공한 이후 할 일 설정
+    after_success:
+        - echo "Test Success"
+    ```
+    
