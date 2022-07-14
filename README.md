@@ -13,4 +13,4 @@ docker 공부를 위한 리포지토리입니다.
 ## [리액트 프로젝트 배포하기](https://github.com/songyw0517/docker_study/blob/main/doc/docker-react-production.md)
 
 # Multi_container_application
-[풀스택 프로젝트](https://github.com/songyw0517/docker_study/blob/main/doc/multi_container_application.md)
+## [풀스택 프로젝트](https://github.com/songyw0517/docker_study/blob/main/doc/multi_container_application.md)
