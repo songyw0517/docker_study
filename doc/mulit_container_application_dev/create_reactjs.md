@@ -1,4 +1,15 @@
 # 리액트 파일 만들기
+## 0. package.json에 사용할 종속성 추가하기 (axios)
+- axios 부분에 대한 정보를 추가한다.
+  ```json
+  // package.json
+  "dependencies":{
+    ...,
+
+    "axios":"0.27.2"
+  }
+
+  ```
 ## 1. Create-React-App으로 리액트앱 생성하기
 - 터미널 실행
 - docker-fullstack-app 디렉토리로 이동
