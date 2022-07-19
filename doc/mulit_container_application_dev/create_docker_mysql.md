@@ -32,8 +32,8 @@ FROM mysql:5.7
 ## 4. Mysql 환경 설정
 - 현재 상태에서는 mysql데이터베이스에 한글 데이터를 저장할 때 깨지는 오류가 발생할 수 있다.
 - cnf파일을 통해 한글을 인코딩 할 수 있게 설정을 해준다.
-- my.cnf 파일 작성
-    ```cnf
+- my.conf 파일 작성
+    ```conf
     [mysqld]
     character-set-server=utf8
 
@@ -47,6 +47,6 @@ FROM mysql:5.7
 ```docker
 FROM mysql:5.7
 
-ADD ./my.cnf /etc/mysql/conf.d/my.cnf
+ADD ./my.conf /etc/mysql/conf.d/my.conf
 ```
 
