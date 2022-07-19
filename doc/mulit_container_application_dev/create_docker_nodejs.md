@@ -20,7 +20,7 @@
     CMD ["npm", "run", "dev"]
     ```
 ## 3. 운영 환경을 위한 도커 파일 작성하기
-- 운영환경에서는 dev가 아닌, start를 사용하면 됨ㄴ다.
+- 운영환경에서는 dev가 아닌, start를 사용하면 된다.
     ```docker
     FROM node:alpine
 
