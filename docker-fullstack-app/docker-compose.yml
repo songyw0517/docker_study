@@ -1,0 +1,46 @@
+version: "3"
+services:
+    # frontend 서비스를 위한 설정
+    frontend:
+        build:
+            # 도커 파일의 이름 명시
+            dockerfile: dockerfile.dev
+            context: ./frontend
+        volumes:
+            - /app/node_moudles
+            - ./frontend:/app
+        stdin_open: true
+
+    # nginx를 위한 설정
+    nginx:
+        # 항상 재시작하도록 설정
+        restart: always
+        build:
+            dockerfile: dockerfile.dev
+            context: ./nginx
+        # 3000을 80에 연결    
+        ports:
+            - "3000:80"
+    # backend를 위한 설정
+    backend:
+        build:
+            dockerfile: dockerfile.dev
+            context: ./backend
+        container_name: app_backend
+        volumes:
+            - /app/node_modules
+            - ./backend:/app
+    mysql:
+        build: ./mysql
+        # 개발자가 멈추려고 할때만 멈춘다.
+
+        restart: unless-stopped
+        container_name: app_mysql
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./mysql/mysql_data:/var/lib/mysql
+            - ./mysql/sqls/:/docker-entrypoint-initdb.d/
+        environment:
+            MYSQL_ROOT_PASSWORD: scof
+            MYSQL_DATABASE: myapp
