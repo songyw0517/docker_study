@@ -22,7 +22,7 @@ location이 /로 시작하는지, /api로 시작하는지에 따라 나뉜다.
 
     # backend 포트 : 5000
     upstream backend{
-        server frontend:3000;
+        server backend:5000;
     }
 
     # nginx 포트 : 80
