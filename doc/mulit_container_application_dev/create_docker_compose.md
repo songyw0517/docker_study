@@ -164,6 +164,7 @@ services:
 ## 7. 에러 수정
 WebSocketClient.js:16 WebSocket connection to 'ws://localhost:3000/ws' failed:
 
+- frontend/node_modules/webpack-dev-server/client/WebSocketClient.js 수정
 
 
 참고

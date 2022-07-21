@@ -1,11 +1,11 @@
 FROM node:alpine
 
 RUN cd home \
-    && mkdir ret
+    && mkdir app
 
-RUN chmod -R 777 /home/ret
+RUN chmod -R 777 /home/app
 
-WORKDIR /ret
+WORKDIR home/app
 
 COPY package.json ./
 

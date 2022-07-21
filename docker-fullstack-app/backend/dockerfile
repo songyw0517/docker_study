@@ -1,6 +1,11 @@
 FROM node:alpine
 
-WORKDIR /app
+RUN cd home \
+    && mkdir app
+
+RUN chmod -R 777 /home/app
+
+WORKDIR home/app
 
 COPY ./package.json ./
 
