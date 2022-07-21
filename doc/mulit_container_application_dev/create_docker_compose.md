@@ -162,6 +162,14 @@ services:
 ```
 
 ## 7. 에러 수정
+WebSocketClient.js:16 WebSocket connection to 'ws://localhost:3000/ws' failed:
+
+
+
+참고
+- https://velog.io/@ryu/react-scripts-3.3.0-WebSocket-%EC%9D%B4%EC%8A%88-%ED%95%B4%EA%B2%B0%ED%95%98%EA%B8%B0
+
+## 8. 에러 수정
 : EACCES: permission denied 에러 발생
 
 원인 : usr/src/app이라는 경로가 없는데 저기에 디렉토리를 설정해서 문제가 발생한 것.
@@ -181,3 +189,4 @@ services:
     ```
 참고
 - https://seonghyuk.tistory.com/207
+
