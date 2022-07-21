@@ -146,6 +146,8 @@ services:
             - ./backend:/app
     mysql:
         build: ./mysql
+        # 개발자가 멈추려고 할때만 멈춘다.
+
         restart: unless-stopped
         container_name: app_mysql
         ports:
@@ -158,3 +160,22 @@ services:
             MYSQL_DATABASE: myapp
             
 ```
+
+## 7. 에러 수정
+: EACCES: permission denied 에러 발생
+
+원인 : usr/src/app이라는 경로가 없는데 저기에 디렉토리를 설정해서 문제가 발생한 것.
+
+해결
+- frontend의 dockerfile.dev 파일에서 "WORKDIR" 경로 수정
+- 다음 해결방안은 /home 에 ret 디렉토리를 생성하고 WORKDIR로 설정하는 방법이다.
+- permission 문제가 발생하기에 chmod로 모든 권한을 준다
+    ```docker
+    RUN cd home \
+        && mkdir ret
+
+    RUN chmod -R 777 /home/ret
+
+    WORKDIR /ret
+    ...
+    ```
