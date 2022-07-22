@@ -7,8 +7,6 @@ services:
         volumes:
             - /app/node_modules
             - ./frontend:/app
-        environment:
-            - WDS_SOCKET_PORT=0
         stdin_open: true
 
     nginx:
@@ -24,12 +22,10 @@ services:
             context: ./backend
         container_name: app_backend
         volumes:
-            - /app/node_modules
             - ./backend:/app
-          
+
     mysql:
         build: ./mysql
-
         restart: unless-stopped
         container_name: app_mysql
         ports:
@@ -40,6 +36,3 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: scof
             MYSQL_DATABASE: myapp
-            MYSQL_HOST: mysql
-            MYSQL_USER: root
-            MYSQL_PORT: 3306 

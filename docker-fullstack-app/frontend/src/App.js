@@ -16,10 +16,10 @@ function App() {
     // 여기서 데이터베이스에 있는 값을 가져온다.
     // axios를 통해 서버에 요청한다.
     axios.get("/api/values")
-    .then(response =>{
-      console.log("response", response.data)
-      setLists(response.data)
-    })
+      .then(response =>{
+        console.log("response", response)
+        setLists(response.data)
+      })
   }, [])
 
   // 3. Input박스의 값이 변경될 때마다 값을 설정하는 기능 추가 (changeHandler)
@@ -33,12 +33,12 @@ function App() {
     event.preventDefault(); // 원래 있던 기본 기능을 막음
 
     // 서버에 post로 데이터를 보낸다.
-    axios.post("/api/value", {value:value})
+    axios.post('/api/value', { value:value })
     .then(response =>{
       if(response.data.success){
         console.log("response", response)
         setLists([...lists, response.data]) // 기존에 있던 리스트에 새로운 데이터 추가
-        setValue("") // Input 박스의 값을 지운다.
+        setValue(""); // Input 박스의 값을 지운다.
       }else{
         alert('값을 DB에 넣는데 실패했습니다.')
       }

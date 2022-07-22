@@ -5,7 +5,7 @@ RUN cd home \
 
 RUN chmod -R 777 /home/app
 
-WORKDIR home/app
+WORKDIR /home/app
 
 COPY ./package.json ./
 

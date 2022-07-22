@@ -7,7 +7,7 @@ RUN chmod -R 777 /home/app
 
 WORKDIR home/app
 
-COPY package.json ./
+COPY ./package.json ./
 
 RUN npm install
 
